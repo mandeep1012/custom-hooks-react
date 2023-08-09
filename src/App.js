@@ -5,6 +5,7 @@ import useResize from './custom_hooks/useWindowResize';
 import useLocalStorage from './custom_hooks/useLocalStorage';
 import useDebounce from './custom_hooks/useDebounce';
 import useHover from './custom_hooks/useHover';
+import useFetch from './custom_hooks/useFetch';
 
 function App() {
 
@@ -22,6 +23,13 @@ function App() {
   //useHover
 
   const [hoverRef, isHovered] = useHover();
+
+  //useFetch
+
+  const { data, loading, error } = useFetch('https://jsonplaceholder.typicode.com/posts/1');
+
+
+
 
 
   React.useEffect(() => {
@@ -66,6 +74,19 @@ function App() {
 
       <div ref={hoverRef}>
         <p>{isHovered ? 'Hovering' : 'Not hovering'}</p>
+      </div>
+
+      <div>
+        {loading ?
+          <>
+            <p>Loading...</p>
+          </> : error ?
+            <>
+              <p>Error: {error.message}</p>
+            </> : <>
+              <h1>{data.title}</h1>
+              <p>{data.body}</p>
+            </>}
       </div>
     </div>
   );
